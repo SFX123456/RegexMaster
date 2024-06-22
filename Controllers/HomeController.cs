@@ -20,8 +20,14 @@ public class HomeController : Controller
 
     public string Index()
     {
-        return "Hallo";
-        //return _userContext.Users.ToList();
+        Console.WriteLine("hallo");
+        var d =  _userContext.Users.ToList();
+        foreach (User user in d)
+        {
+            Console.WriteLine(user.Id); 
+        }
+
+        return "hallo";
     }
 
     public IActionResult Privacy()
