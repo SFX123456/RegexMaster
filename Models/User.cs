@@ -1,17 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace RegexMaster.Models;
 
-public class User
+public class User : IdentityUser
 {
-    public int Id { get; set; }
-
-    [Required]
-    public string Email { get; set; }
-
-    [DataType(DataType.Date)]
-    public DateTime SignUpDate { get; set; }
-
-    public string Password { get; set; }
-
+  
 }

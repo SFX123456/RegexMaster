@@ -1,18 +1,36 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RegexMaster.DB;
+using RegexMaster.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<UserContext>(options =>
-                options.UseSqlite(builder.Configuration.GetConnectionString("UserContext")));
+{
+    options.UseSqlite(builder.Configuration.GetConnectionString("UserContext"));
+});
 
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication().AddCookie(IdentityConstants.ApplicationScheme);
 
+builder.Services.AddIdentityCore<User>()
+                .AddEntityFrameworkStores<UserContext>()
+                .AddApiEndpoints();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+
+
 var app = builder.Build();
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.MapIdentityApi<User>();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -24,6 +42,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+
 
 app.UseRouting();
 
