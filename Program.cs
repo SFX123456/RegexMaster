@@ -8,16 +8,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<UserContext>(options =>
+builder.Services.AddDbContext<ApplicationContext>(options =>
 {
-    options.UseSqlite(builder.Configuration.GetConnectionString("UserContext"));
+    options.UseSqlite(builder.Configuration.GetConnectionString("ApplicationContext"));
 });
 
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication().AddCookie(IdentityConstants.ApplicationScheme);
 
 builder.Services.AddIdentityCore<User>()
-                .AddEntityFrameworkStores<UserContext>()
+                .AddEntityFrameworkStores<ApplicationContext>()
                 .AddApiEndpoints();
 
 // Add services to the container.

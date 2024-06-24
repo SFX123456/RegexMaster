@@ -10,22 +10,37 @@ namespace RegexMaster.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly UserContext _userContext;
+    private readonly ApplicationContext _applicationContext;
 
-    public HomeController(ILogger<HomeController> logger, UserContext userContext)
+    public HomeController(ILogger<HomeController> logger, ApplicationContext applicationContext)
     {
         _logger = logger;
-        _userContext = userContext;
+        _applicationContext = applicationContext;
     }
 
     public string Index()
     {
         Console.WriteLine("hallo");
-        var d =  _userContext.Users.ToList();
-        foreach (User user in d)
+        foreach (Reward reward in _applicationContext.Rewards.ToList())
         {
-            Console.WriteLine(user.Id); 
+            Console.WriteLine(reward); 
         }
+
+        string userId = "3ea0a3df-4a34-45ba-9471-2d3c778e7d19";
+        var x = _applicationContext.RewardsUsers
+                        .Where(ur => ur.UserId == userId)
+                        .Include(ur => ur.User)
+                        .Include(ur => ur.Reward)
+                        .ToList();
+        foreach (RewardUser rewardUser in x)
+        {
+            if (rewardUser.User == null)
+            {
+                Console.WriteLine("rewarduser is null");
+            }
+            Console.WriteLine(rewardUser?.User.Id + " hat das achievment " + rewardUser.Reward.ShortDesc + " am " + rewardUser.AchievedAt + " erlangen");
+        }
+      
 
         return "hallo";
     }
