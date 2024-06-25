@@ -1,4 +1,4 @@
-dotnet ef add migration helloworld
+dotnet ef migration add helloworld
 creates migrationfiles
 
 dotnet ef database update

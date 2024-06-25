@@ -18,4 +18,7 @@ public class Level
     public string CreatedFrom { get; set; }
     public User Creater { get; set; }
     public ICollection<CampaignLevel> CampaignLevels { get; set; }
+    public ICollection<Comment> Comments { get; set; }
+    public ICollection<VotesLevel> VotesLevels { get; set; }
+    public ICollection<TestResult> TestResults { get; set; }
 }

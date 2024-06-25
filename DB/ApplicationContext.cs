@@ -28,6 +28,11 @@ public class ApplicationContext :IdentityDbContext<User>
 
         builder.Entity<Campaign>().ToTable("Campaign");
         builder.Entity<CampaignLevel>().ToTable("CampaignLevel");
+        builder.Entity<Comment>().ToTable("Comment");
+        builder.Entity<VotesLevel>().ToTable("VotesLevel");
+        builder.Entity<VotesComment>().ToTable("VotesComment");
+        builder.Entity<Solution>().ToTable("Solution");
+        builder.Entity<TestResult>().ToTable("TestResult");
 
         /*
         builder.Entity<CampaignLevel>()
@@ -72,8 +77,61 @@ public class ApplicationContext :IdentityDbContext<User>
                         .HasOne(ru => ru.LastChangedFrom)
                         .WithMany(ru => ru.LastChangedCampaigns)
                         .HasForeignKey(ru => ru.LastChangedFromId);
+
+        builder.Entity<Comment>()
+                        .HasOne(ru => ru.Level)
+                        .WithMany(ru => ru.Comments)
+                        .HasForeignKey(ru => ru.LevelId);
         
+        builder.Entity<Comment>()
+                        .HasOne(ru => ru.CreatedFrom)
+                        .WithMany(ru => ru.Comments)
+                        .HasForeignKey(ru => ru.CreatedFromId);
+
+        builder.Entity<Comment>()
+                        .HasOne(ru => ru.AnswerTo)
+                        .WithMany(ru => ru.AnswerToColl)
+                        .HasForeignKey(ru => ru.AnswerToId);
+
+        builder.Entity<VotesLevel>()
+                        .HasOne(ru => ru.User)
+                        .WithMany(ru => ru.VotesLevels)
+                        .HasForeignKey(ru => ru.UserId);
         
+        builder.Entity<VotesLevel>()
+                        .HasOne(ru => ru.Level)
+                        .WithMany(ru => ru.VotesLevels)
+                        .HasForeignKey(ru => ru.LevelId);
+
+        builder.Entity<VotesComment>()
+                        .HasOne(ru => ru.User)
+                        .WithMany(ru => ru.VotesComments)
+                        .HasForeignKey(ru => ru.UserId);
+        
+        builder.Entity<VotesComment>()
+                        .HasOne(ru => ru.Comment)
+                        .WithMany(ru => ru.VotesComments)
+                        .HasForeignKey(ru => ru.CommentId);
+
+        builder.Entity<Solution>()
+                        .HasOne(ru => ru.User)
+                        .WithMany(ru => ru.Solutions)
+                        .HasForeignKey(ru => ru.UserId);
+
+        builder.Entity<Solution>()
+                        .HasOne(ru => ru.TestResult)
+                        .WithMany()
+                        .HasForeignKey(ru => ru.Id);
+
+        builder.Entity<TestResult>()
+                        .HasOne(ru => ru.User)
+                        .WithMany(ru => ru.TestResults)
+                        .HasForeignKey(ru => ru.UserId);
+        
+        builder.Entity<TestResult>()
+                        .HasOne(ru => ru.Level)
+                        .WithMany(ru => ru.TestResults)
+                        .HasForeignKey(ru => ru.LevelId);
         
         var user = new User();
        builder.Entity<User>().HasData(user);
