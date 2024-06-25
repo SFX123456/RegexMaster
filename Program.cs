@@ -1,7 +1,13 @@
-using Microsoft.AspNetCore.Identity;
+using Fleck;using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RegexMaster.DB;
 using RegexMaster.Models;
+using RegexMaster.Websocket;
+
+
+var wsserver = new WebSocketServer("ws://0.0.0.0:8181");
+wsserver.Start(WebsocketStart.Start);
+Console.WriteLine("Websocket server started on port 8181");
 
 var builder = WebApplication.CreateBuilder(args);
 
